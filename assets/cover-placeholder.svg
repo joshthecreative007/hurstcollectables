@@ -1,0 +1,19 @@
+<svg viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg { fill: #24314a; }
+      .corner { stroke: #5ec8e8; stroke-width: 2; fill: none; }
+      .label { fill: #5ec8e8; font-family: 'IBM Plex Mono', monospace; font-size: 15px; letter-spacing: 2px; }
+      .sub { fill: #c8cdd6; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; }
+    </style>
+  </defs>
+  <rect class="bg" width="400" height="600"/>
+  <path class="corner" d="M30,30 L30,70 M30,30 L70,30"/>
+  <path class="corner" d="M370,30 L370,70 M370,30 L330,30"/>
+  <path class="corner" d="M30,570 L30,530 M30,570 L70,570"/>
+  <path class="corner" d="M370,570 L370,530 M370,570 L330,570"/>
+  <circle cx="200" cy="270" r="42" class="corner"/>
+  <path class="corner" d="M180,270 L220,270 M200,250 L200,290"/>
+  <text x="200" y="350" text-anchor="middle" class="label">COVER PENDING</text>
+  <text x="200" y="372" text-anchor="middle" class="sub">FILE PHOTOGRAPHY IN PROGRESS</text>
+</svg>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hurst Collectibles — The Collection</title>
+<title>Hurst Collectables — The Collection</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
@@ -14,7 +14,7 @@
   <div class="topbar-inner">
     <a class="brand" href="#top">
       <span class="brand-mark">HC</span>
-      <span class="brand-name">HURST COLLECTIBLES</span>
+      <span class="brand-name">HURST COLLECTABLES</span>
     </a>
     <nav class="topnav">
       <a href="#catalog">Catalog</a>
@@ -22,6 +22,9 @@
       <a href="#contact">Contact</a>
     </nav>
     <div class="topbar-count"><span id="stock-count">—</span> items in stock</div>
+    <button class="cart-btn" id="cart-btn" aria-label="Open cart">
+      CART<span class="cart-count" id="cart-count">0</span>
+    </button>
   </div>
 </header>
 
@@ -38,6 +41,7 @@
       <div class="stat"><span class="stat-num" id="stat-total">—</span><span class="stat-label">books catalogued</span></div>
       <div class="stat"><span class="stat-num" id="stat-pub">—</span><span class="stat-label">publishers</span></div>
       <div class="stat"><span class="stat-num" id="stat-key">—</span><span class="stat-label">key issues</span></div>
+      <div class="stat"><span class="stat-num" id="stat-slabs">—</span><span class="stat-label">graded slabs</span></div>
     </div>
     <a href="#catalog" class="btn-primary">Access the catalog →</a>
   </div>
@@ -55,6 +59,11 @@
     <select id="filter-key" class="control">
       <option value="">All issues</option>
       <option value="key">Key issues only</option>
+    </select>
+    <select id="filter-type" class="control">
+      <option value="">Raw &amp; graded</option>
+      <option value="raw">Raw only</option>
+      <option value="slab">Graded slabs only</option>
     </select>
     <select id="sort" class="control">
       <option value="series-asc">Series A–Z</option>
@@ -75,7 +84,7 @@
 <section class="about" id="about">
   <div class="about-inner">
     <h2 class="section-title">The dossier</h2>
-    <p>Hurst Collectibles is a private sale of a single, well-kept collection — twenty-plus years of Marvel, DC, Image, Dark Horse, and indie single issues, alongside graded slabs. Every book has been condition-checked, bagged, and boarded since acquisition. Available for pickup at DFW-area shows and conventions, or shipped nationwide.</p>
+    <p>Hurst Collectables is a private sale of a single, well-kept collection — twenty-plus years of Marvel, DC, Image, Dark Horse, and indie single issues, alongside graded slabs. Every book has been condition-checked, bagged, and boarded since acquisition. Available for pickup at DFW-area shows and conventions, or shipped nationwide.</p>
     <div class="about-grid">
       <div class="about-card">
         <h3>Condition first</h3>
@@ -97,11 +106,30 @@
   <div class="footer-inner">
     <div>
       <span class="brand-mark small">HC</span>
-      <p class="footer-tag">Hurst Collectibles — DFW, Texas</p>
+      <p class="footer-tag">Hurst Collectables — DFW, Texas</p>
     </div>
     <p class="footer-note">Inquiries: list your contact channel here (email / Instagram / WhatNot). Prices available on request until listed.</p>
   </div>
 </footer>
+
+<div class="cart-backdrop" id="cart-backdrop">
+  <aside class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+      <h3>YOUR CART</h3>
+      <button class="cart-close" id="cart-close" aria-label="Close cart">×</button>
+    </div>
+    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-empty" id="cart-empty">Your file is empty. Add some books.</div>
+    <div class="cart-footer" id="cart-footer">
+      <div class="cart-line"><span>Subtotal</span><span id="cart-subtotal">$0.00</span></div>
+      <div class="cart-line"><span>Shipping</span><span id="cart-shipping">$0.00</span></div>
+      <div class="cart-line cart-total"><span>Total</span><span id="cart-total">$0.00</span></div>
+      <form id="cart-checkout-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank"></form>
+      <button class="btn-primary cart-checkout-btn" id="cart-checkout-btn">Checkout with PayPal →</button>
+      <p class="cart-note">Ships in a rigid mailer within 2 business days. Combined shipping applied automatically.</p>
+    </div>
+  </aside>
+</div>
 
 <div class="modal-backdrop" id="modal-backdrop">
   <div class="modal" id="modal"></div>
