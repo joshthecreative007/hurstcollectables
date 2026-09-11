@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hurst Collectables — We Buy Graded Comics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy-deep: #0a1220;
+    --navy-mid: #131f35;
+    --navy-panel: #0f1a2c;
+    --steel: #5b82b8;
+    --steel-dim: #3a5578;
+    --silver: #c7d0dc;
+    --silver-dim: #8b96a8;
+    --white: #f3f5f8;
+    --black: #05070b;
+    --line: #2a3854;
+    --line-light: rgba(199, 208, 220, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--navy-deep);
+    color: var(--white);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+
+
+  .wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  a { color: inherit; }
+
+  /* ---------- HERO ---------- */
+
+  header.hero {
+    padding: 90px 0 70px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 620px 620px at 78% 8%, rgba(91, 130, 184, 0.16), transparent 70%);
+  }
+
+  .spotlight {
+    position: absolute;
+    top: -220px;
+    right: -180px;
+    width: 640px;
+    height: 640px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(91, 130, 184, 0.10) 0%, rgba(91, 130, 184, 0.04) 45%, transparent 72%);
+    pointer-events: none;
+  }
+
+  .brand-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 64px;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    color: var(--silver-dim);
+    position: relative;
+  }
+
+  .brand-row .mark {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--white);
+    letter-spacing: 0.01em;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 20px;
+    align-items: center;
+    position: relative;
+  }
+
+  @media (max-width: 780px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-art { display: none; }
+  }
+
+  .hero-art {
+    justify-self: end;
+  }
+
+  h1.headline {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(38px, 6vw, 62px);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    max-width: 15ch;
+  }
+
+  h1.headline em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--steel);
+  }
+
+  .sub {
+    margin-top: 26px;
+    max-width: 46ch;
+    font-size: 17px;
+    color: var(--silver);
+  }
+
+  .hero-actions {
+    margin-top: 42px;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--steel);
+    color: var(--black);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 14px 26px;
+    text-decoration: none;
+    border: 1px solid var(--steel);
+    transition: background 0.15s ease;
+  }
+  .btn-primary:hover { background: #6f92c2; }
+
+  .btn-secondary {
+    font-size: 15px;
+    color: var(--silver);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 2px;
+  }
+  .btn-secondary:hover { color: var(--white); border-color: var(--silver-dim); }
+
+  /* ---------- SLAB LABEL CARD (recurring motif) ---------- */
+
+  .slab {
+    background: var(--navy-panel);
+    border: 1px solid var(--line);
+  }
+
+  .slab-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    background: var(--navy-mid);
+    border-bottom: 1px solid var(--line);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--silver-dim);
+  }
+
+  .slab-label .cert {
+    color: var(--steel);
+  }
+
+  .slab-body { padding: 30px; }
+
+  /* ---------- OFFER SECTION ---------- */
+
+  section.offer {
+    padding: 90px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-head {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(26px, 3.4vw, 34px);
+    font-weight: 500;
+    max-width: 20ch;
+    margin-bottom: 16px;
+  }
+
+  .section-lede {
+    color: var(--silver);
+    max-width: 52ch;
+    margin-bottom: 48px;
+    font-size: 16px;
+  }
+
+  .formula-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 720px) {
+    .formula-grid { grid-template-columns: 1fr; }
+  }
+
+  .formula-visual {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+    color: var(--silver);
+    line-height: 2;
+  }
+
+  .formula-visual .op { color: var(--steel-dim); padding: 0 8px; }
+  .formula-visual .term { color: var(--white); }
+  .formula-visual .floor {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+    color: var(--silver-dim);
+    font-size: 13px;
+  }
+
+  .offer-notes { color: var(--silver-dim); font-size: 14px; }
+  .offer-notes p + p { margin-top: 14px; }
+  .offer-notes strong { color: var(--silver); font-weight: 500; }
+
+  /* ---------- CRITERIA ---------- */
+
+  section.criteria {
+    padding: 90px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .criteria-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  @media (max-width: 720px) {
+    .criteria-grid { grid-template-columns: 1fr; }
+  }
+
+  .criteria-col { background: var(--navy-deep); padding: 32px; }
+
+  .criteria-col h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--silver-dim);
+    margin-bottom: 20px;
+  }
+
+  .criteria-col.yes h3 { color: var(--steel); }
+
+  .criteria-col ul { list-style: none; }
+  .criteria-col li {
+    padding: 11px 0;
+    border-top: 1px solid var(--line-light);
+    font-size: 15px;
+    color: var(--silver);
+  }
+  .criteria-col li:first-of-type { border-top: none; }
+
+  /* ---------- PROCESS ---------- */
+
+  section.process {
+    padding: 90px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  @media (max-width: 720px) {
+    .steps { grid-template-columns: 1fr; }
+  }
+
+  .step { background: var(--navy-deep); padding: 34px 28px; }
+
+  .step .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--steel);
+    letter-spacing: 0.06em;
+    margin-bottom: 18px;
+  }
+
+  .step h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .step p { color: var(--silver-dim); font-size: 14.5px; }
+
+  /* ---------- CONTACT ---------- */
+
+  section.contact { padding: 90px 0 110px; }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  @media (max-width: 720px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+
+  .contact-fields { display: flex; flex-direction: column; gap: 2px; }
+
+  .contact-fields dt {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--silver-dim);
+    margin-top: 18px;
+  }
+  .contact-fields dd {
+    font-size: 17px;
+    color: var(--white);
+    margin-top: 4px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .contact-note { color: var(--silver-dim); font-size: 14px; max-width: 40ch; }
+  .contact-note strong { color: var(--silver); font-weight: 500; }
+
+  footer {
+    padding: 30px 0 50px;
+    color: var(--silver-dim);
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="spotlight" aria-hidden="true"></div>
+    <div class="brand-row">
+      <span class="mark">Hurst Collectables</span>
+      <span>Plano · Dallas–Fort Worth</span>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <h1 class="headline">We buy your <em>graded</em> comics. Fair price, same day.</h1>
+        <p class="sub">No listing, no waiting on a buyer, no learning the grading market yourself. Bring your slabs, we quote on the spot from real comp data, and you walk away with cash or a transfer.</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="mailto:sales@hurstcollectables.com?subject=Slab%20Collection%20Quote%20Request">Request a quote</a>
+          <a class="btn-secondary" href="#criteria">What we buy →</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <svg width="300" height="400" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a graded comic slab">
+          <defs>
+            <linearGradient id="caseGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#1b2b47"/>
+              <stop offset="100%" stop-color="#0f1a2c"/>
+            </linearGradient>
+            <linearGradient id="coverGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#5b82b8"/>
+              <stop offset="55%" stop-color="#2c4a6e"/>
+              <stop offset="100%" stop-color="#16233a"/>
+            </linearGradient>
+            <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.10"/>
+              <stop offset="35%" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <rect x="18" y="10" width="264" height="380" rx="6" fill="url(#caseGrad)" stroke="#3a5578" stroke-width="1.5"/>
+
+          <rect x="34" y="26" width="232" height="46" rx="2" fill="#0a1220" stroke="#2a3854"/>
+          <text x="46" y="44" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="1.5" fill="#5b82b8">CERTIFIED</text>
+          <text x="46" y="58" font-family="IBM Plex Mono, monospace" font-size="8" letter-spacing="1" fill="#8b96a8">GRADE  9.4  —  NM</text>
+          <text x="220" y="58" font-family="IBM Plex Mono, monospace" font-size="8" fill="#5b82b8" text-anchor="end">04281953</text>
+
+          <rect x="34" y="84" width="232" height="290" rx="2" fill="url(#coverGrad)"/>
+          <rect x="34" y="84" width="232" height="290" rx="2" fill="url(#sheen)"/>
+
+          <rect x="50" y="100" width="120" height="14" rx="1" fill="#f3f5f8" opacity="0.85"/>
+          <rect x="50" y="120" width="80" height="8" rx="1" fill="#c7d0dc" opacity="0.5"/>
+
+          <circle cx="150" cy="235" r="62" fill="none" stroke="#f3f5f8" stroke-opacity="0.18" stroke-width="1.5"/>
+          <circle cx="150" cy="235" r="40" fill="none" stroke="#f3f5f8" stroke-opacity="0.28" stroke-width="1.5"/>
+          <circle cx="150" cy="235" r="4" fill="#f3f5f8" opacity="0.6"/>
+
+          <rect x="50" y="336" width="150" height="8" rx="1" fill="#0a1220" opacity="0.5"/>
+          <rect x="50" y="350" width="100" height="6" rx="1" fill="#0a1220" opacity="0.4"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <section class="offer">
+    <h2 class="section-head">How the price is set</h2>
+    <p class="section-lede">Every offer is pulled from current sold comps for that exact cert number — not a guess, not a lowball flat rate. You can watch us look it up.</p>
+
+    <div class="formula-grid">
+      <div class="slab formula-visual" style="padding: 30px;">
+        <div><span class="term">Comic comp value</span> <span class="op">×</span> <span class="term">30–40%</span></div>
+        <div><span class="op">=</span> <span class="term">your offer</span></div>
+        <div class="floor">Minimum offer on any accepted slab: <span class="term" style="color: var(--steel);">$50</span></div>
+      </div>
+      <div class="offer-notes">
+        <p><strong>Why a percentage, not a flat number.</strong> A flat buy price either overpays on common books or badly underpays on keys. Pricing off the comp keeps every offer fair to you and sustainable for us.</p>
+        <p><strong>Comps pulled live.</strong> We check the certification number against current graded-market data before naming a number — same information you could look up yourself.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="criteria" id="criteria">
+    <h2 class="section-head">What qualifies</h2>
+    <p class="section-lede">A quick read before you bring a box over.</p>
+
+    <div class="criteria-grid">
+      <div class="criteria-col yes">
+        <h3>WE BUY</h3>
+        <ul>
+          <li>CGC, CBCS, or PGX graded slabs</li>
+          <li>Any grade, any era — Golden Age through modern</li>
+          <li>Full runs, boxes, or single books</li>
+          <li>Collections from estates or downsizing</li>
+        </ul>
+      </div>
+      <div class="criteria-col">
+        <h3>WE DON'T BUY</h3>
+        <ul>
+          <li>Cracked or compromised slab cases</li>
+          <li>Unverifiable or altered certification labels</li>
+          <li>Raw, ungraded single issues (ask us about consignment instead)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="process">
+    <h2 class="section-head">How it works</h2>
+    <p class="section-lede">Three steps, usually done in one sitting.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">01 — BRING OR SEND</div>
+        <h4>Show us the slabs</h4>
+        <p>In person around Plano/DFW, or photos of cert numbers if you're further out.</p>
+      </div>
+      <div class="step">
+        <div class="num">02 — WE QUOTE</div>
+        <h4>Live comp lookup</h4>
+        <p>Each cert is checked against current sold data. You see the number we're working from.</p>
+      </div>
+      <div class="step">
+        <div class="num">03 — YOU DECIDE</div>
+        <h4>Cash or transfer, no pressure</h4>
+        <p>Take the offer or don't — either way you keep the comp info for your own reference.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <div class="contact-grid">
+      <div>
+        <h2 class="section-head">Get a quote</h2>
+        <p class="section-lede">For collections, estate sales, or shop overstock — we'll come to you for anything sizeable.</p>
+        <p class="contact-note">Selling a single slab or a whole collection, <strong>reach out with cert numbers or photos</strong> and we'll have a number back to you quickly.</p>
+      </div>
+      <dl class="contact-fields">
+        <dt>EMAIL</dt>
+        <dd>sales@hurstcollectables.com</dd>
+        <dt>PHONE / TEXT</dt>
+        <dd>(469) 644-1390</dd>
+        <dt>SERVICE AREA</dt>
+        <dd>Plano · Dallas–Fort Worth, and shipped inquiries nationwide</dd>
+      </dl>
+    </div>
+  </section>
+
+  <footer>
+    <span>Hurst Collectables</span>
+    <span>hurstcollectables.com</span>
+  </footer>
+</div>
+
+</body>
+</html>
