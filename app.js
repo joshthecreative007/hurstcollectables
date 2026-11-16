@@ -51,8 +51,20 @@
     if (sort === 'series-asc') items.sort((a, b) => a.series.localeCompare(b.series) || naturalIssue(a) - naturalIssue(b));
     if (sort === 'series-desc') items.sort((a, b) => b.series.localeCompare(a.series));
     if (sort === 'publisher') items.sort((a, b) => a.publisher.localeCompare(b.publisher) || a.series.localeCompare(b.series));
-    return items;
+    // books with a cover photo first; "cover pending" books go to the bottom (stable, keeps sort order)
+    const withCover = items.filter(hasCover), noCover = items.filter(i => !hasCover(i));
+    return withCover.concat(noCover);
   }
+
+  function hasCover(item) {
+    return !!item.photo_url && !item.photo_url.includes('cover-placeholder') && !brokenCovers.has(item.id);
+  }
+  // covers that fail to load are remembered so they sort to the bottom next time the list renders
+  const brokenCovers = new Set();
+  window.hcCoverFailed = function (img, id) {
+    img.onerror = null; img.src = 'assets/cover-placeholder.svg';
+    if (id) brokenCovers.add(id);
+  };
 
   function naturalIssue(item) {
     const n = parseInt(item.issue, 10);
@@ -73,7 +85,7 @@
     return `
       <article class="card" data-id="${item.id}">
         <div class="card-frame">
-          <img src="${item.photo_url}" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='assets/cover-placeholder.svg'" alt="${escapeHTML(item.title)}" loading="lazy">
+          <img src="${item.photo_url}" referrerpolicy="no-referrer" onerror="hcCoverFailed(this,'${escapeHTML(item.id)}')" alt="${escapeHTML(item.title)}" loading="lazy">
           ${badges.join('')}
           <span class="card-corner cc-tl"></span>
           <span class="card-corner cc-tr"></span>
