@@ -1,5 +1,4 @@
 (function () {
-  // TODO: replace with your real PayPal business email before going live.
   const PAYPAL_BUSINESS_EMAIL = 'hurstdigital@gmail.com';
 
   const grid = document.getElementById('grid');
@@ -386,4 +385,22 @@
   }
   openFromLink();
   window.addEventListener('hashchange', openFromLink);
+
+  // Facebook/Instagram Shop checkout: /checkout?products=<id>:<qty>,<id>:<qty>
+  // Adds those books to the cart and opens it so the shopper can pay with PayPal.
+  function checkoutFromLink() {
+    const raw = new URLSearchParams(location.search).get('products');
+    if (!raw) return;
+    let added = 0;
+    raw.split(',').forEach(part => {
+      const entry = decodeURIComponent(part.trim());
+      const cut = entry.lastIndexOf(':');
+      const id = cut > 0 ? entry.slice(0, cut) : entry;
+      const item = INVENTORY.find(i => i.id === id);
+      if (item) { addToCart(item); added++; }
+    });
+    history.replaceState(null, '', '/');
+    if (added) openCart();
+  }
+  checkoutFromLink();
 })();
