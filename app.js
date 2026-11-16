@@ -118,11 +118,33 @@
   function saveCart(cart) {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
   }
-  let cart = loadCart();
+  // copies in stock for a listing (most books are one-of-a-kind)
+  function stockOf(id) {
+    const item = INVENTORY.find(i => i.id === id);
+    return item ? Math.max(1, parseInt(item.quantity, 10) || 1) : 1;
+  }
+  let cart = loadCart()
+    .filter(c => INVENTORY.some(i => i.id === c.id))
+    .map(c => ({ ...c, qty: Math.min(Math.max(1, parseInt(c.qty, 10) || 1), stockOf(c.id)) }));
+  const cartCount = () => cart.reduce((n, c) => n + c.qty, 0);
+  const qtyInCart = id => (cart.find(c => c.id === id) || { qty: 0 }).qty;
 
-  function addToCart(item) {
-    if (cart.some(c => c.id === item.id)) return;
-    cart.push({ id: item.id, sku: item.sku, title: `#${item.issue} ${item.series}`, price: item.price, photo_url: item.photo_url });
+  function addToCart(item, qty = 1) {
+    const max = stockOf(item.id);
+    const line = cart.find(c => c.id === item.id);
+    if (line) {
+      line.qty = Math.min(max, line.qty + qty);
+    } else {
+      cart.push({ id: item.id, sku: item.sku, title: `#${item.issue} ${item.series}`, price: item.price, photo_url: item.photo_url, qty: Math.min(max, Math.max(1, qty)) });
+    }
+    saveCart(cart);
+    renderCart();
+  }
+  function setQty(id, qty) {
+    const line = cart.find(c => c.id === id);
+    if (!line) return;
+    if (qty < 1) return removeFromCart(id);
+    line.qty = Math.min(stockOf(id), qty);
     saveCart(cart);
     renderCart();
   }
@@ -132,7 +154,7 @@
     renderCart();
   }
   function isInCart(id) {
-    return cart.some(c => c.id === id);
+    return qtyInCart(id) >= stockOf(id); // every copy is already in the cart
   }
   // Holiday bundle deal — comics $9.99 and under.
   // 5+ eligible: 5% off paid eligible books, plus 11+: 1 free, 17+: 2 free, 23+: 3 free
@@ -140,7 +162,7 @@
   const BUNDLE_MAX_PRICE = 9.99;
   function bundleDeal(items) {
     const elig = items.filter(c => Number(c.price) > 0 && Number(c.price) <= BUNDLE_MAX_PRICE)
-                      .map(c => Number(c.price)).sort((a, b) => a - b);
+                      .flatMap(c => Array(c.qty || 1).fill(Number(c.price))).sort((a, b) => a - b);
     const n = elig.length;
     const free = n >= 23 ? 3 : n >= 17 ? 2 : n >= 11 ? 1 : 0;
     let discount = 0, label = '', nudge = '';
@@ -173,7 +195,13 @@
         <img src="${c.photo_url}" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='assets/cover-placeholder.svg'" alt="${escapeHTML(c.title)}">
         <div class="cart-row-info">
           <p class="cart-row-title">${escapeHTML(c.title)}</p>
-          <p class="cart-row-price">$${Number(c.price).toFixed(2)}</p>
+          <p class="cart-row-price">$${Number(c.price).toFixed(2)}${c.qty > 1 ? ` × ${c.qty}` : ''}</p>
+          ${stockOf(c.id) > 1 ? `<div class="cart-qty">
+            <button data-qty-dec="${c.id}" aria-label="One fewer">−</button>
+            <span>${c.qty}</span>
+            <button data-qty-inc="${c.id}" aria-label="One more" ${c.qty >= stockOf(c.id) ? 'disabled' : ''}>+</button>
+            <small>of ${stockOf(c.id)}</small>
+          </div>` : ''}
           <button class="cart-row-remove" data-remove="${c.id}">Remove</button>
         </div>
       </div>`;
@@ -184,12 +212,12 @@
     const cartEmptyEl = document.getElementById('cart-empty');
     const cartFooterEl = document.getElementById('cart-footer');
     const cartCountEl = document.getElementById('cart-count');
-    const subtotal = cart.reduce((sum, c) => sum + Number(c.price || 0), 0);
-    const shipping = shippingCost(cart.length);
+    const subtotal = cart.reduce((sum, c) => sum + Number(c.price || 0) * c.qty, 0);
+    const shipping = shippingCost(cartCount());
     const deal = bundleDeal(cart);
     const total = subtotal - deal.discount + shipping;
 
-    cartCountEl.textContent = cart.length;
+    cartCountEl.textContent = cartCount();
     cartItemsEl.innerHTML = cart.map(cartRowHTML).join('');
     cartEmptyEl.style.display = cart.length === 0 ? 'block' : 'none';
     cartFooterEl.style.display = cart.length === 0 ? 'none' : 'block';
@@ -207,9 +235,14 @@
     // refresh any visible add-to-cart buttons so state (in cart / not) stays correct
     document.querySelectorAll('[data-add-to-cart]').forEach(btn => {
       const id = btn.dataset.addToCart;
-      if (isInCart(id)) {
+      const inCart = qtyInCart(id), stock = stockOf(id);
+      if (inCart >= stock) {
         btn.textContent = 'In cart ✓';
         btn.disabled = true;
+      } else if (inCart > 0) {
+        const item = INVENTORY.find(i => i.id === id);
+        btn.textContent = `Add another — $${item ? item.price : ''} (${inCart} of ${stock} in cart)`;
+        btn.disabled = false;
       }
     });
   }
@@ -228,11 +261,11 @@
       fields[`item_name_${n}`] = c.title;
       fields[`item_number_${n}`] = c.sku;
       fields[`amount_${n}`] = c.price;
-      fields[`quantity_${n}`] = '1';
+      fields[`quantity_${n}`] = String(c.qty);
     });
     // represent shipping as its own cart line item — the most reliable
     // cross-browser way to add a flat shipping charge to a PayPal cart upload
-    const shipCost = shippingCost(cart.length);
+    const shipCost = shippingCost(cartCount());
     if (shipCost > 0) {
       const n = cart.length + 1;
       fields[`item_name_${n}`] = 'Shipping';
@@ -266,7 +299,10 @@
   });
   document.getElementById('cart-items').addEventListener('click', (e) => {
     const id = e.target.dataset.remove;
-    if (id) removeFromCart(id);
+    if (id) return removeFromCart(id);
+    const inc = e.target.dataset.qtyInc, dec = e.target.dataset.qtyDec;
+    if (inc) setQty(inc, qtyInCart(inc) + 1);
+    if (dec) setQty(dec, qtyInCart(dec) - 1);
   });
   document.getElementById('cart-checkout-btn').addEventListener('click', () => {
     if (cart.length === 0) return;
@@ -314,6 +350,7 @@
             <tr><td>UPC</td><td>${escapeHTML(item.upc || '—')}</td></tr>
           </table>
           ${item.synopsis ? `<p class="modal-synopsis">${escapeHTML(item.synopsis)}</p>` : ''}
+          ${stockOf(item.id) > 1 ? `<p class="modal-stock">${stockOf(item.id)} copies available</p>` : ''}
           ${priceBlock}
         </div>
       </div>`;
@@ -397,8 +434,9 @@
       const entry = decodeURIComponent(part.trim());
       const cut = entry.lastIndexOf(':');
       const id = cut > 0 ? entry.slice(0, cut) : entry;
+      const qty = cut > 0 ? parseInt(entry.slice(cut + 1), 10) || 1 : 1;
       const item = INVENTORY.find(i => i.id === id);
-      if (item) { addToCart(item); added++; }
+      if (item) { addToCart(item, qty); added++; }
     });
     history.replaceState(null, '', '/');
     if (added) openCart();
