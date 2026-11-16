@@ -391,6 +391,7 @@
   function checkoutFromLink() {
     const raw = new URLSearchParams(location.search).get('products');
     if (!raw) return;
+    cart = []; saveCart(cart); // the Facebook cart replaces whatever was here
     let added = 0;
     raw.split(',').forEach(part => {
       const entry = decodeURIComponent(part.trim());
