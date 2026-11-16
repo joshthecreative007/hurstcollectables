@@ -372,4 +372,18 @@
   initStats();
   render();
   renderCart();
+
+  // Deep links from Facebook / feeds: hurstcollectables.com/?book=<id> opens that book
+  function openFromLink() {
+    const params = new URLSearchParams(location.search);
+    const id = params.get('book') || (location.hash.startsWith('#book-') ? decodeURIComponent(location.hash.slice(6)) : '');
+    if (!id) return;
+    const item = INVENTORY.find(i => i.id === id);
+    if (item) {
+      document.getElementById('catalog').scrollIntoView();
+      openModal(item);
+    }
+  }
+  openFromLink();
+  window.addEventListener('hashchange', openFromLink);
 })();
