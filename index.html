@@ -29,7 +29,9 @@
       <span class="brand-name">HURST COLLECTABLES</span>
     </a>
     <nav class="topnav">
-      <a href="#catalog">Catalog</a>
+      <a href="#comics" data-dept-link="comics">Comics</a>
+      <a href="#toys" data-dept-link="toys">Toys</a>
+      <a href="#cards" data-dept-link="cards">Cards</a>
       <a href="#about">Dossier</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -99,7 +101,7 @@
     <div class="corner corner-br"></div>
     <p class="hero-eyebrow">CLASSIFIED / EYES ONLY — DFW, TX</p>
     <h1 class="hero-title">THE<br>COLLECTION</h1>
-    <p class="hero-sub">Single issues and graded slabs, pulled from a two-decade personal archive. Every book cataloged, condition-verified, and cleared for acquisition.</p>
+    <p class="hero-sub">Comics, collectible toys and trading cards, pulled from a two-decade personal archive. Every item cataloged, condition-verified, and cleared for acquisition.</p>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num" id="stat-total">—</span><span class="stat-label">books catalogued</span></div>
       <div class="stat"><span class="stat-num" id="stat-pub">—</span><span class="stat-label">publishers</span></div>
@@ -111,12 +113,18 @@
 </section>
 
 <section class="catalog" id="catalog">
+  <nav class="dept-tabs" role="tablist" aria-label="Shop by department">
+    <button class="dept-tab" role="tab" data-dept="comics"><span class="dept-code">DIV. 01</span><span class="dept-name">Comics</span><span class="dept-count" data-dept-count="comics">—</span></button>
+    <button class="dept-tab" role="tab" data-dept="toys"><span class="dept-code">DIV. 02</span><span class="dept-name">Toys</span><span class="dept-count" data-dept-count="toys">—</span></button>
+    <button class="dept-tab" role="tab" data-dept="cards"><span class="dept-code">DIV. 03</span><span class="dept-name">Cards</span><span class="dept-count" data-dept-count="cards">—</span></button>
+  </nav>
+
   <div class="catalog-header">
-    <h2 class="section-title">Field catalog</h2>
-    <p class="section-sub">Filter the archive. Every listing below is a real book in hand — not a stock photo.</p>
+    <h2 class="section-title" id="dept-title">Field catalog</h2>
+    <p class="section-sub" id="dept-sub">Filter the archive. Every listing below is a real book in hand — not a stock photo.</p>
   </div>
 
-  <div class="controls">
+  <div class="controls" data-controls="comics">
     <input type="text" id="search" class="control" placeholder="Search title, series, or story arc…">
     <select id="filter-publisher" class="control"></select>
     <select id="filter-key" class="control">
@@ -135,11 +143,62 @@
     </select>
   </div>
 
+  <div class="controls" data-controls="toys" hidden>
+    <input type="text" id="toy-search" class="control" placeholder="Search figure, character, or line…">
+    <select id="toy-brand" class="control"></select>
+    <select id="toy-franchise" class="control"></select>
+    <select id="toy-pack" class="control">
+      <option value="">Sealed &amp; loose</option>
+      <option value="Sealed">Sealed / in box</option>
+      <option value="Loose">Loose</option>
+    </select>
+    <select id="toy-sort" class="control">
+      <option value="featured">Featured</option>
+      <option value="price-asc">Price: low to high</option>
+      <option value="price-desc">Price: high to low</option>
+      <option value="name">Name A–Z</option>
+      <option value="year-desc">Newest first</option>
+    </select>
+  </div>
+
+  <div class="controls" data-controls="cards" hidden>
+    <input type="text" id="card-search" class="control" placeholder="Search player, character, set, or year…">
+    <select id="card-category" class="control"></select>
+    <select id="card-type" class="control">
+      <option value="">Raw &amp; graded</option>
+      <option value="raw">Raw only</option>
+      <option value="graded">Graded only</option>
+    </select>
+    <select id="card-flag" class="control">
+      <option value="">All cards</option>
+      <option value="rookie">Rookie cards</option>
+      <option value="auto">Autographs</option>
+      <option value="numbered">Serial numbered</option>
+    </select>
+    <select id="card-sort" class="control">
+      <option value="featured">Featured</option>
+      <option value="price-asc">Price: low to high</option>
+      <option value="price-desc">Price: high to low</option>
+      <option value="year-desc">Year: newest</option>
+      <option value="year-asc">Year: oldest</option>
+    </select>
+  </div>
+
   <p class="result-count"><span id="result-count">0</span> results</p>
 
   <div class="grid" id="grid"></div>
   <div class="empty-state" id="empty-state" hidden>
     <p>No files match that search. Adjust your parameters.</p>
+  </div>
+  <div class="incoming" id="dept-incoming" hidden>
+    <span class="corner corner-tl"></span><span class="corner corner-tr"></span><span class="corner corner-bl"></span><span class="corner corner-br"></span>
+    <p class="incoming-eyebrow">STATUS: INCOMING</p>
+    <h3 class="incoming-title" id="incoming-title">Being cataloged now</h3>
+    <p class="incoming-copy" id="incoming-copy"></p>
+    <div class="incoming-actions">
+      <a class="btn-primary" href="https://www.facebook.com/profile.php?id=61596266897699" target="_blank" rel="noopener">Follow for the first drop →</a>
+      <button class="btn-ghost" data-dept="comics">Shop comics now</button>
+    </div>
   </div>
   <button class="btn-secondary" id="load-more" hidden>Load more files</button>
 </section>
@@ -191,7 +250,7 @@
       <div class="cart-line cart-total"><span>Total</span><span id="cart-total">$0.00</span></div>
       <form id="cart-checkout-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank"></form>
       <button class="btn-primary cart-checkout-btn" id="cart-checkout-btn">Checkout with PayPal →</button>
-      <p class="cart-note">Ships in a rigid mailer within 2 business days. Combined shipping applied automatically.</p>
+      <p class="cart-note">Ships within 2 business days. Comics and cards go in rigid mailers; toys ship boxed. Combined shipping applied automatically.</p>
     </div>
   </aside>
 </div>
@@ -201,6 +260,8 @@
 </div>
 
 <script src="data.js"></script>
+<script src="toys.js"></script>
+<script src="cards.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
