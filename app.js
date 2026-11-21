@@ -329,6 +329,9 @@
     try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) { /* private mode */ }
   }
   // copies in stock for a listing (most items are one-of-a-kind)
+  // listings with hide_stock = Y never show how many are in stock (checkout still allows more than one)
+  const stockHidden = id => { const item = byId(id); return !!item && yes(item.hide_stock); };
+
   function stockOf(id) {
     const item = byId(id);
     return item ? Math.max(1, parseInt(item.quantity, 10) || 1) : 1;
@@ -416,7 +419,7 @@
             <button data-qty-dec="${c.id}" aria-label="One fewer">−</button>
             <span>${c.qty}</span>
             <button data-qty-inc="${c.id}" aria-label="One more" ${c.qty >= stockOf(c.id) ? 'disabled' : ''}>+</button>
-            <small>of ${stockOf(c.id)}</small>
+            ${stockHidden(c.id) ? '' : `<small>of ${stockOf(c.id)}</small>`}
           </div>` : ''}
           <button class="cart-row-remove" data-remove="${c.id}">Remove</button>
         </div>
@@ -452,7 +455,7 @@
         btn.disabled = true;
       } else if (inCart > 0) {
         const item = byId(id);
-        btn.textContent = `Add another — $${item ? item.price : ''} (${inCart} of ${stock} in cart)`;
+        btn.textContent = `Add another — $${item ? item.price : ''} (${stockHidden(id) ? inCart : `${inCart} of ${stock}`} in cart)`;
         btn.disabled = false;
       }
     });
@@ -717,7 +720,7 @@
           ${subLine ? `<p class="modal-story">${escapeHTML(subLine)}</p>` : ''}
           <table class="modal-specs">${specsFor(item)}</table>
           ${notes ? `<p class="modal-synopsis">${escapeHTML(notes)}</p>` : ''}
-          ${stockOf(item.id) > 1 ? `<p class="modal-stock">${stockOf(item.id)} available</p>` : ''}
+          ${stockOf(item.id) > 1 && !stockHidden(item.id) ? `<p class="modal-stock">${stockOf(item.id)} available</p>` : ''}
           ${priceButton(item, true)}
         </div>
       </div>`;
