@@ -1,19 +1,19 @@
 sku,status,title,platform,edition,year,grading_company,grade,seal_rating,condition,price,quantity,shipping,photo_url,photo_urls,description
-HC-VG01,,God of War,,,,WATA,9.6,A+,Graded,147.99,1,,,,"God of War, graded WATA 9.6 A+."
-HC-VG02,,Tomb Raider: Underworld,,,,WATA,9.4+,A+,Graded,99.99,1,,,,"Tomb Raider: Underworld, graded WATA 9.4+ A+."
+HC-VG01,,God of War,PS2,,,WATA,9.6,A+,Graded,147.99,1,,,,"God of War for PlayStation 2, graded WATA 9.6 A+."
+HC-VG02,,Tomb Raider: Underworld,PS2,,,WATA,9.4+,A+,Graded,99.99,1,,,,"Tomb Raider: Underworld for PlayStation 2, graded WATA 9.4+ A+."
 HC-VG03,,Tomb Raider: Anniversary,PS2,,,WATA,9.4+,,Graded,402.99,1,,,,"Tomb Raider: Anniversary for PlayStation 2, graded WATA 9.4+."
-HC-VG04,draft,Uncharted: Drake's Fortune,PS3,,,,,,,267.99,1,,,,"Uncharted: Drake's Fortune for PlayStation 3."
+HC-VG04,draft,Uncharted: Drake's Fortune,PS3,,,,,,,267.99,1,,,,Uncharted: Drake's Fortune for PlayStation 3.
 HC-VG05,,Uncharted 3: Drake's Deception,PS3,Black Label (Retail),,WATA,9.6,A+,Graded,149.99,1,,,,"Uncharted 3, Black Label retail release, graded WATA 9.6 A+."
-HC-VG06,draft,007: Quantum of Solace,PS3,,,,,,,127.99,1,,,,"007: Quantum of Solace for PlayStation 3."
+HC-VG06,draft,007: Quantum of Solace,PS3,,,,,,,127.99,1,,assets/games/HC-VG06.jpg,,007: Quantum of Solace for PlayStation 3. Photo: official cover art; a photo of the graded copy is coming soon.
 HC-VG07,,Red Dead Redemption,PS3,Black Label (Original),,WATA,9.8,,Graded,244.99,1,,,,"Red Dead Redemption for PlayStation 3, original Black Label release, graded WATA 9.8."
-HC-VG08,draft,Call of Juarez: Bound in Blood,,,,WATA,9.6,A,Graded,84.99,1,,,,"Call of Juarez: Bound in Blood, graded 9.6 A."
-HC-VG09,,Far Cry 2,PS3,Standard Edition,,WATA,9.4,,Graded,137.99,1,,,,"Far Cry 2 for PlayStation 3, Standard Edition, graded WATA 9.4."
-HC-VG10,draft,Batman: Arkham Origins,PS3,,,,,,,224.99,1,,,,"Batman: Arkham Origins for PlayStation 3."
-HC-VG11,,Medal of Honor,PS3,,,WATA,9.8,A++,Graded,179.99,1,,,,"Medal of Honor for PlayStation 3, graded WATA 9.8 A++."
+HC-VG08,draft,Call of Juarez: Bound in Blood,PC,,,WATA,9.6,A,Graded,84.99,1,,assets/games/HC-VG08.jpg,,"Call of Juarez: Bound in Blood for PC, graded 9.6 A. Photo: official cover art; a photo of the graded copy is coming soon."
+HC-VG09,,Far Cry 2,PS3,Standard Edition,,WATA,9.4,,Graded,137.99,1,,assets/games/HC-VG09.jpg,,"Far Cry 2 for PlayStation 3, Standard Edition, graded WATA 9.4. Photo: official cover art; a photo of the graded copy is coming soon."
+HC-VG10,draft,Batman: Arkham Origins,PS3,,,,,,,224.99,1,,assets/games/HC-VG10.jpg,,Batman: Arkham Origins for PlayStation 3. Photo: official cover art; a photo of the graded copy is coming soon.
+HC-VG11,,Medal of Honor,PS3,,,WATA,9.8,A++,Graded,179.99,1,,assets/games/HC-VG11.jpg,,"Medal of Honor for PlayStation 3, graded WATA 9.8 A++. Photo: official cover art; a photo of the graded copy is coming soon."
 HC-VG12,,Uncharted 2: Among Thieves,PS3,Black Label (Retail),,WATA,9.6,A+,Graded,164.99,1,,,,"Uncharted 2, Black Label retail release, graded WATA 9.6 A+."
-HC-VG13,,F.E.A.R. 2: Project Origin,,Black Label,,WATA,9.6,,Graded,157.99,1,,,,"F.E.A.R. 2, Black Label, graded WATA 9.6."
-HC-VG14,draft,Tiger Woods PGA Tour 09,,,2008,,,,,164.99,1,,,,"Tiger Woods PGA Tour 09 (2008)."
+HC-VG13,,F.E.A.R. 2: Project Origin,PS3,Black Label,,WATA,9.6,,Graded,157.99,1,,,,"F.E.A.R. 2, Black Label for PlayStation 3, graded WATA 9.6."
+HC-VG14,draft,Tiger Woods PGA Tour 09,PS2,,2008,,,,,164.99,1,,assets/games/HC-VG14.jpg,,Tiger Woods PGA Tour 09 (2008) for PlayStation 2. Photo: official cover art.
 HC-VG15,,Indiana Jones and the Emperor's Tomb,PS2,Standard (Black Label),,WATA,9.6,A+,Graded,169.99,1,,,,"Indiana Jones and the Emperor's Tomb for PlayStation 2, standard Black Label release, graded WATA 9.6 A+."
-HC-VG16,,Indiana Jones and the Staff of Kings,PS2,Standard (Black Label),,WATA,9.6,A+,Graded,239.99,1,,,,"Indiana Jones and the Staff of Kings for PlayStation 2, standard Black Label release, graded WATA 9.6 A+."
-HC-VG17,,Star Wars Battlefront,,Standard,2015,WATA,9.4,A,Graded,84.99,1,,,,"Star Wars Battlefront (2015), Standard edition, graded WATA 9.4 A."
-HC-VG18,,Sniper Elite 3,PS4,Standard (Black Label),,WATA,9.4,,Graded,127.99,1,,,,"Sniper Elite 3 for PlayStation 4, Standard edition, graded WATA 9.4."
+HC-VG16,,Indiana Jones and the Staff of Kings,PS2,Standard (Black Label),,WATA,9.6,A+,Graded,239.99,1,,assets/games/HC-VG16.jpg,,"Indiana Jones and the Staff of Kings for PlayStation 2, standard Black Label release, graded WATA 9.6 A+. Photo: official cover art; a photo of the graded copy is coming soon."
+HC-VG17,,Star Wars Battlefront,PS4,Standard,2015,WATA,9.4,A,Graded,84.99,1,,assets/games/HC-VG17.jpg,,"Star Wars Battlefront (2015), Standard edition for PlayStation 4, graded WATA 9.4 A. Photo: official cover art; a photo of the graded copy is coming soon."
+HC-VG18,,Sniper Elite 3,PS4,Standard (Black Label),,WATA,9.4,,Graded,127.99,1,,assets/games/HC-VG18.jpg,,"Sniper Elite 3 for PlayStation 4, Standard edition, graded WATA 9.4. Photo: official cover art; a photo of the graded copy is coming soon."
