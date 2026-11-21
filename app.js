@@ -172,7 +172,7 @@
     if (item.dept === 'cards') {
       return [item.year, item.set, item.card_number ? `#${item.card_number}` : '', item.name].filter(Boolean).join(' ');
     }
-    return `#${item.issue} ${item.series}`;
+    return item.issue ? `#${item.issue} ${item.series}` : item.series;
   }
 
   function photosOf(item) {
@@ -215,7 +215,7 @@
         ${frameHTML(item, badges)}
         <div class="card-body">
           <p class="card-file">FILE NO. ${escapeHTML(item.sku)}</p>
-          <p class="card-title"><span class="card-issue">#${escapeHTML(item.issue)}</span> ${escapeHTML(item.series)}</p>
+          <p class="card-title">${item.issue ? `<span class="card-issue">#${escapeHTML(item.issue)}</span> ` : ''}${escapeHTML(item.series)}</p>
           <p class="card-meta">${metaLine}</p>
           ${priceButton(item)}
         </div>
