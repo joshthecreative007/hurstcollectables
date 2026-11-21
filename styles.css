@@ -597,6 +597,105 @@ footer { padding: 60px 32px; }
 .tier-plus { font-family: var(--font-mono); font-size: 12px; color: #ffd76a; letter-spacing: .06em; }
 .tier-best .tier-plus { color: #ffe9b0; }
 
+/* ---------- Holiday hero: Christmas comic-cover look ---------- */
+.holiday {
+  --cc-ink: #0a0e1a; --cc-red: #e63946; --cc-gold: #ffd76a; --cc-green: #2bb673;
+  background:
+    radial-gradient(circle at 72% 52%, rgba(94,200,232,.28), transparent 42%),
+    repeating-conic-gradient(from 0deg at 72% 52%, rgba(255,255,255,.07) 0deg 5deg, transparent 5deg 12deg),
+    linear-gradient(160deg, #13265a 0%, #0f1c3f 55%, #0a0e1a 100%);
+  padding: 88px 24px 80px;
+}
+.holiday::before { /* halftone dots fading in from the edges */
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(rgba(94,200,232,.45) 1.6px, transparent 2.2px) 0 0 / 14px 14px;
+  -webkit-mask-image: radial-gradient(ellipse at 70% 50%, transparent 30%, #000 85%);
+          mask-image: radial-gradient(ellipse at 70% 50%, transparent 30%, #000 85%);
+  opacity: .5;
+}
+.snow { position: absolute; inset: 0; pointer-events: none; opacity: .75;
+  background-image:
+    radial-gradient(3px 3px at 20px 30px, #fff 50%, transparent 51%),
+    radial-gradient(2px 2px at 90px 120px, #fff 50%, transparent 51%),
+    radial-gradient(3px 3px at 160px 60px, #fff 50%, transparent 51%),
+    radial-gradient(2px 2px at 220px 180px, #fff 50%, transparent 51%),
+    radial-gradient(2.5px 2.5px at 60px 200px, #fff 50%, transparent 51%);
+  background-size: 260px 240px; animation: snowfall 14s linear infinite; }
+@keyframes snowfall { from { background-position: 0 0; } to { background-position: 60px 480px; } }
+
+.comic-cover { display: block; max-width: 1216px; background: rgba(10,14,26,.35);
+  border: 6px solid #fff; outline: 4px solid var(--cc-ink); box-shadow: 14px 14px 0 var(--cc-ink); }
+.cover-masthead { display: grid; grid-template-columns: auto 1fr auto; align-items: stretch;
+  background: var(--cc-red); border-bottom: 5px solid var(--cc-ink); }
+.corner-box { display: flex; align-items: center; gap: 10px; background: #fff; padding: 8px 16px 8px 10px; border-right: 5px solid var(--cc-ink); }
+.corner-box img { width: 76px; height: 76px; display: block; }
+.corner-box span { font-family: var(--font-mono); font-weight: 500; font-size: 12px; line-height: 1.35; letter-spacing: .08em; color: var(--cc-ink); }
+.masthead-title { margin: 0; align-self: center; text-align: center; font-family: 'Bangers', var(--font-display); font-size: clamp(34px, 5.4vw, 78px); letter-spacing: .04em; line-height: 1; color: #fff; text-transform: uppercase;
+  -webkit-text-stroke: 3px var(--cc-ink); paint-order: stroke fill; text-shadow: 5px 5px 0 var(--cc-ink); transform: rotate(-1.5deg); padding: 10px 8px; }
+.masthead-title b { color: var(--cc-gold); font-weight: 400; }
+.price-box { display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--cc-gold); border-left: 5px solid var(--cc-ink); padding: 8px 18px; color: var(--cc-ink); }
+.price-box span { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 500; }
+.price-box strong { font-family: 'Bangers', var(--font-display); font-size: 40px; line-height: 1; letter-spacing: .03em; font-weight: 400; }
+
+.cover-body { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: center; padding: 40px 44px 44px; }
+.holiday-eyebrow { display: inline-block; background: var(--cc-ink); color: var(--cc-gold); padding: 6px 12px; border: 2px solid var(--cc-gold); transform: rotate(-1deg); text-transform: uppercase; }
+.holiday-title { font-size: clamp(46px, 6.6vw, 92px); line-height: .92; margin: 0 0 22px; }
+.holiday-title span { display: block; }
+.holiday-title .ht-1 { color: #fff; -webkit-text-stroke: 3px var(--cc-ink); paint-order: stroke fill; text-shadow: 6px 6px 0 var(--cyan); }
+.holiday-title .ht-2 { font-family: 'Bangers', var(--font-display); font-weight: 400; letter-spacing: .03em; font-size: 1.12em; color: var(--cc-gold);
+  -webkit-text-stroke: 3px var(--cc-ink); paint-order: stroke fill; text-shadow: 6px 6px 0 var(--cc-red); transform: rotate(-3deg); transform-origin: left center; margin-top: 6px; }
+.holiday-sub { color: #e6eaf0; }
+
+.tiers { gap: 14px; }
+.tier { background: #fff; border: 3px solid var(--cc-ink); box-shadow: 5px 5px 0 var(--cc-ink); transform: rotate(-1.5deg); transition: transform .15s; }
+.tier:nth-child(even) { transform: rotate(1.5deg); }
+.tier:hover { transform: rotate(0) scale(1.05); }
+.tier-buy { color: #3a4a63; font-weight: 500; }
+.tier-get { font-family: 'Bangers', var(--font-display); font-weight: 400; letter-spacing: .03em; font-size: 34px; color: var(--cc-ink); }
+.tier-plus { color: var(--cc-red); font-weight: 500; }
+.tier-best { background: var(--cc-red); border-color: var(--cc-ink); box-shadow: 5px 5px 0 var(--cc-ink), 0 0 0 4px var(--cc-gold); animation: wobble 2.6s ease-in-out infinite; }
+.tier-best .tier-get { color: #fff; -webkit-text-stroke: 1.5px var(--cc-ink); paint-order: stroke fill; }
+.tier-best .tier-buy, .tier-best .tier-plus { color: #fff4d0; }
+.tier-flag { font-family: 'Bangers', var(--font-display); font-size: 16px; letter-spacing: .06em; color: var(--cc-ink); background: var(--cc-gold); border: 2px solid var(--cc-ink); top: -16px; }
+@keyframes wobble { 0%,100% { transform: rotate(2deg) scale(1); } 50% { transform: rotate(-2deg) scale(1.06); } }
+
+.btn-holiday { font-family: 'Bangers', var(--font-display); font-weight: 400; font-size: 26px; letter-spacing: .06em; color: var(--cc-ink); background: var(--cc-gold);
+  border: 3px solid var(--cc-ink); box-shadow: 6px 6px 0 var(--cc-ink); padding: 12px 28px; }
+.btn-holiday:hover { background: #ffe58f; transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--cc-ink); }
+.holiday-fine { color: #aab4c4; }
+
+.comic-art { position: relative; min-height: 460px; display: flex; align-items: center; justify-content: center; }
+.cover-fan { position: relative; width: 300px; height: 430px; }
+.fan { position: absolute; top: 0; left: 0; width: 270px; height: 410px; object-fit: cover; border: 5px solid #fff; outline: 3px solid var(--cc-ink); box-shadow: 10px 10px 0 rgba(10,14,26,.85); background: #fff; }
+.fan-1 { transform: translate(-90px, 18px) rotate(-16deg); }
+.fan-2 { transform: translate(-40px, 6px) rotate(-8deg); }
+.fan-3 { transform: translate(40px, 10px) rotate(7deg); }
+.fan-4 { transform: translate(0, 0) rotate(-1deg); z-index: 2; }
+.santa-hat { position: absolute; z-index: 3; width: 150px; top: -64px; left: -34px; transform: rotate(-18deg); filter: drop-shadow(4px 4px 0 rgba(10,14,26,.6)); }
+.sfx { position: absolute; z-index: 4; font-family: 'Bangers', var(--font-display); letter-spacing: .04em; color: var(--cc-gold); line-height: 1;
+  -webkit-text-stroke: 3px var(--cc-ink); paint-order: stroke fill; text-shadow: 5px 5px 0 var(--cc-red); }
+.sfx-boom { top: -6px; right: -6px; font-size: 64px; transform: rotate(10deg); animation: pop 2.4s ease-in-out infinite; }
+.sfx-boom::before { content: ''; position: absolute; z-index: -1; inset: -34px -30px;
+  background: #fff; border: 0;
+  clip-path: polygon(50% 0%, 58% 22%, 78% 6%, 72% 30%, 98% 24%, 80% 44%, 100% 58%, 76% 62%, 86% 86%, 62% 72%, 54% 100%, 44% 76%, 22% 94%, 28% 68%, 2% 72%, 20% 52%, 0% 34%, 26% 34%, 16% 10%, 40% 22%); }
+.sfx-pow { bottom: 10px; left: 0; font-size: 52px; color: #fff; text-shadow: 5px 5px 0 var(--cyan); transform: rotate(-12deg); }
+@keyframes pop { 0%,100% { transform: rotate(10deg) scale(1); } 50% { transform: rotate(6deg) scale(1.12); } }
+.bubble { position: absolute; z-index: 4; bottom: 26px; right: 0; max-width: 220px; background: #fff; color: var(--cc-ink); border: 3px solid var(--cc-ink); border-radius: 50% / 44%;
+  padding: 18px 22px; text-align: center; font-family: 'Bangers', var(--font-display); font-size: 24px; letter-spacing: .03em; line-height: 1.1; box-shadow: 5px 5px 0 var(--cc-ink); transform: rotate(4deg); }
+.bubble b { color: var(--cc-red); font-weight: 400; }
+.bubble::after { content: ''; position: absolute; left: 34px; top: -26px; border: 14px solid transparent; border-bottom: 18px solid var(--cc-ink); border-top: 0; transform: rotate(-24deg); }
+@media (prefers-reduced-motion: reduce) { .snow, .sfx-boom, .tier-best { animation: none; } }
+@media (max-width: 860px) {
+  .holiday { padding: 76px 14px 56px; }
+  .comic-cover { box-shadow: 8px 8px 0 var(--cc-ink); }
+  .cover-masthead { grid-template-columns: auto 1fr; }
+  .price-box { display: none; }
+  .corner-box img { width: 56px; height: 56px; }
+  .cover-body { grid-template-columns: 1fr; padding: 26px 18px 30px; }
+  .comic-art { min-height: 360px; order: -1; transform: scale(.78); margin: -30px 0 -40px; }
+  .tier, .tier:nth-child(even) { transform: none; }
+}
+
 /* quantity stepper for books with more than one copy */
 .cart-qty { display: flex; align-items: center; gap: 6px; margin: 6px 0 2px; }
 .cart-qty button {
