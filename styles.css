@@ -186,6 +186,9 @@ img { display: block; max-width: 100%; }
 .cart-checkout-btn { width: 100%; text-align: center; margin-top: 14px; }
 .cart-checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .cart-pay-options { font-size: 13px; color: var(--silver); margin: 10px 0 0; text-align: center; }
+.paypal-buttons { margin-top: 14px; }
+.paypal-buttons:empty { display: none; }
+.cart-paid { font-size: 14px; color: var(--white); background: var(--navy); border: 1px solid var(--cyan); padding: 12px; margin: 12px 0 0; text-align: center; }
 .cart-note { font-size: 11px; color: var(--steel); margin: 12px 0 0; text-align: center; }
 
 /* ---------- hero ---------- */

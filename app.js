@@ -296,6 +296,7 @@
   const qtyInCart = id => (cart.find(c => c.id === id) || { qty: 0 }).qty;
 
   function addToCart(item, qty = 1) {
+    $('cart-paid').hidden = true;
     const max = stockOf(item.id);
     const line = cart.find(c => c.id === item.id);
     if (line) {
@@ -395,6 +396,7 @@
     $('cart-nudge').hidden = !deal.nudge;
     $('cart-shipping').textContent = `$${shipping.toFixed(2)}`;
     $('cart-total').textContent = `$${total.toFixed(2)}`;
+    $('paypal-buttons').style.display = cart.length === 0 ? 'none' : '';
 
     // refresh any visible add-to-cart buttons so state (in cart / not) stays correct
     document.querySelectorAll('[data-add-to-cart]').forEach(btn => {
@@ -475,6 +477,77 @@
     buildPaypalCartForm();
     $('cart-checkout-form').submit();
   });
+
+  // ---------- PayPal Smart Buttons (PayPal, Venmo, Pay Later, debit/credit card) ----------
+  // Client ID is public by design. If the SDK fails to load, the classic
+  // "Secure checkout" button above keeps working as a fallback.
+  const PAYPAL_CLIENT_ID = 'BAAWQbjEIgk7NqgaYaN5I4U82ZjwH8f4NmLV0a9p78jEW5WPdX5M2USuL-cKwxFcPTPWPLawJPiSFf6HJo';
+  const money = n => (Math.round(n * 100) / 100).toFixed(2);
+
+  function paypalOrder() {
+    const items = cart.map(c => ({
+      name: String(c.title).slice(0, 127),
+      sku: String(c.sku || c.id).slice(0, 127),
+      unit_amount: { currency_code: 'USD', value: money(Number(c.price)) },
+      quantity: String(c.qty),
+      category: 'PHYSICAL_GOODS',
+    }));
+    const itemTotal = cart.reduce((s, c) => s + Number(money(Number(c.price))) * c.qty, 0);
+    const shipping = shippingCost(cart);
+    const discount = bundleDeal(cart).discount;
+    const total = itemTotal + shipping - discount;
+    return {
+      intent: 'CAPTURE',
+      purchase_units: [{
+        description: 'Hurst Collectables order',
+        amount: {
+          currency_code: 'USD',
+          value: money(total),
+          breakdown: {
+            item_total: { currency_code: 'USD', value: money(itemTotal) },
+            shipping: { currency_code: 'USD', value: money(shipping) },
+            discount: { currency_code: 'USD', value: money(discount) },
+          },
+        },
+        items,
+      }],
+    };
+  }
+
+  function showPaid(msg) {
+    const el = $('cart-paid');
+    el.textContent = msg;
+    el.hidden = false;
+  }
+
+  function initPaypalButtons() {
+    if (!window.paypal || !window.paypal.Buttons) return;
+    window.paypal.Buttons({
+      style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay' },
+      createOrder: (data, actions) => actions.order.create(paypalOrder()),
+      onApprove: (data, actions) => actions.order.capture().then(details => {
+        const name = (details && details.payer && details.payer.name && details.payer.name.given_name) || '';
+        cart = [];
+        saveCart(cart);
+        renderCart();
+        $('cart-footer').style.display = 'block';
+        showPaid(`Thank you${name ? ', ' + name : ''}! Your payment went through and a receipt is on its way to your email. We ship within 2 business days.`);
+      }),
+      onError: () => showPaid('Something went wrong with checkout. Please try again, or message us on Facebook and we will sort it out.'),
+    }).render('#paypal-buttons').then(() => {
+      $('cart-checkout-btn').style.display = 'none';
+      $('cart-pay-options').innerHTML = 'Pay with <strong>PayPal, Venmo, Pay Later</strong> or <strong>debit/credit card</strong> (no PayPal account needed).';
+    }).catch(() => { /* keep the classic checkout button */ });
+  }
+
+  (function loadPaypalSdk() {
+    const s = document.createElement('script');
+    s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(PAYPAL_CLIENT_ID) +
+            '&currency=USD&intent=capture&components=buttons&enable-funding=venmo,paylater,card';
+    s.async = true;
+    s.onload = initPaypalButtons;
+    document.head.appendChild(s);
+  })();
 
   function escapeHTML(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
