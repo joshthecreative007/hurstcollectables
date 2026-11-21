@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Build toys.js and cards.js from the editable CSVs.
+"""Build toys.js, cards.js and games.js from the editable CSVs.
 
     python3 scripts/build_toys_cards.py
 
 Reads  toys-inventory.csv  -> writes toys.js  (const TOYS = [...])
        cards-inventory.csv -> writes cards.js (const CARDS = [...])
+       games-inventory.csv -> writes games.js (const GAMES = [...])
 
 Rows with "status" set to sold / hold / draft are left off the site.
 Blank rows are skipped. Every row needs a unique sku.
@@ -18,6 +19,7 @@ HIDDEN_STATUS = {"sold", "hold", "draft", "hidden"}
 JOBS = [
     ("toys-inventory.csv", "toys.js", "TOYS", "TOY"),
     ("cards-inventory.csv", "cards.js", "CARDS", "CARD"),
+    ("games-inventory.csv", "games.js", "GAMES", "GAME"),
 ]
 
 

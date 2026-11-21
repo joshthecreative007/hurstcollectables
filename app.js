@@ -1,18 +1,20 @@
 (function () {
   const PAYPAL_BUSINESS_EMAIL = 'hurstdigital@gmail.com';
 
-  // ---------- inventory: three departments ----------
-  // data.js → INVENTORY (comics), toys.js → TOYS, cards.js → CARDS
+  // ---------- inventory: four departments ----------
+  // data.js → INVENTORY (comics), toys.js → TOYS, cards.js → CARDS, games.js → GAMES
   const COMICS = INVENTORY;
   const TOY_LIST = (typeof TOYS !== 'undefined' && Array.isArray(TOYS)) ? TOYS : [];
   const CARD_LIST = (typeof CARDS !== 'undefined' && Array.isArray(CARDS)) ? CARDS : [];
+  const GAME_LIST = (typeof GAMES !== 'undefined' && Array.isArray(GAMES)) ? GAMES : [];
   COMICS.forEach(i => { i.dept = 'comics'; });
   TOY_LIST.forEach(i => { i.dept = 'toys'; i.id = i.id || `TOY-${i.sku}`; });
   CARD_LIST.forEach(i => { i.dept = 'cards'; i.id = i.id || `CARD-${i.sku}`; });
-  const ALL = COMICS.concat(TOY_LIST, CARD_LIST);
+  GAME_LIST.forEach(i => { i.dept = 'games'; i.id = i.id || `GAME-${i.sku}`; });
+  const ALL = COMICS.concat(TOY_LIST, CARD_LIST, GAME_LIST);
   const BY_ID = new Map(ALL.map(i => [i.id, i]));
   const byId = id => BY_ID.get(id);
-  const LISTS = { comics: COMICS, toys: TOY_LIST, cards: CARD_LIST };
+  const LISTS = { comics: COMICS, toys: TOY_LIST, cards: CARD_LIST, games: GAME_LIST };
 
   const DEPTS = {
     comics: {
@@ -30,6 +32,12 @@
       sub: 'Trading cards, raw and graded. Front and back photographed for every card.',
       incomingTitle: 'Cards are being cataloged now',
       incomingCopy: 'Raw and graded trading cards are being sorted, scanned and priced. Follow Hurst Collectables to see the first drop the day it lands.',
+    },
+    games: {
+      title: 'Game vault',
+      sub: 'Graded video games: WATA-slabbed PS2, PS3 and PS4 titles, sealed and authenticated.',
+      incomingTitle: 'Games are being cataloged now',
+      incomingCopy: 'Graded video games are being photographed and priced. Follow Hurst Collectables to see the first drop the day it lands.',
     },
   };
 
@@ -74,6 +82,7 @@
     fillSelect($('toy-brand'), 'All brands', uniqueSorted(TOY_LIST, 'brand'));
     fillSelect($('toy-franchise'), 'All franchises', uniqueSorted(TOY_LIST, 'franchise'));
     fillSelect($('card-category'), 'All categories', uniqueSorted(CARD_LIST, 'category'));
+    fillSelect($('game-platform'), 'All platforms', uniqueSorted(GAME_LIST, 'platform'));
   }
 
   function matches(item, q, fields) {
@@ -147,8 +156,23 @@
 
   const isGradedCard = i => !!(i.grading_company || '').trim();
 
+  function getGames() {
+    const q = $('game-search').value.trim();
+    const plat = $('game-platform').value, type = $('game-type').value;
+    let items = GAME_LIST.filter(i =>
+      matches(i, q, ['title', 'platform', 'edition', 'year', 'grading_company']) &&
+      (!plat || i.platform === plat) &&
+      (!type || (type === 'graded') === isGradedCard(i))
+    );
+    const sort = $('game-sort').value;
+    if (sort === 'price-asc') items = priceSort(items, 1);
+    if (sort === 'price-desc') items = priceSort(items, -1);
+    if (sort === 'name') items.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    return photosFirst(items);
+  }
+
   function getFiltered() {
-    return dept === 'toys' ? getToys() : dept === 'cards' ? getCards() : getComics();
+    return dept === 'toys' ? getToys() : dept === 'cards' ? getCards() : dept === 'games' ? getGames() : getComics();
   }
 
   function hasCover(item) {
@@ -169,6 +193,7 @@
   // ---------- display helpers shared by grid, modal and cart ----------
   function displayTitle(item) {
     if (item.dept === 'toys') return item.name || 'Untitled figure';
+    if (item.dept === 'games') return [item.title, item.platform].filter(Boolean).join(' · ');
     if (item.dept === 'cards') {
       return [item.year, item.set, item.card_number ? `#${item.card_number}` : '', item.name].filter(Boolean).join(' ');
     }
@@ -260,13 +285,32 @@
       </article>`;
   }
 
+  function gameCardHTML(item) {
+    const graded = isGradedCard(item);
+    const badges = [];
+    if (graded) badges.push(`<span class="card-badge card-badge-slab">${escapeHTML(item.grading_company)} ${escapeHTML(item.grade || '')}${item.seal_rating ? ' ' + escapeHTML(item.seal_rating) : ''}</span>`);
+    if (/black label/i.test(item.edition || '')) badges.push('<span class="card-badge">BLACK LABEL</span>');
+    const meta = [item.edition, graded ? '' : (item.condition || '')].filter(Boolean).map(escapeHTML).join(' · ');
+    return `
+      <article class="card card-game" data-id="${item.id}">
+        ${frameHTML(item, badges)}
+        <div class="card-body">
+          <p class="card-file">${escapeHTML([item.platform, item.year].filter(Boolean).join(' · ').toUpperCase() || 'GAME FILE ' + item.sku)}</p>
+          <p class="card-title">${escapeHTML(item.title)}</p>
+          <p class="card-meta">${meta || '&nbsp;'}</p>
+          ${priceButton(item)}
+        </div>
+      </article>`;
+  }
+
   function cardHTML(item) {
-    return item.dept === 'toys' ? toyCardHTML(item) : item.dept === 'cards' ? tradingCardHTML(item) : comicCardHTML(item);
+    return item.dept === 'toys' ? toyCardHTML(item) : item.dept === 'cards' ? tradingCardHTML(item)
+      : item.dept === 'games' ? gameCardHTML(item) : comicCardHTML(item);
   }
 
   // ---------- shopping cart ----------
   const CART_KEY = 'hurstcollectables_cart';
-  // comics and cards (flat mailers) share these tiers; toys carry their own per-item shipping
+  // comics and cards (flat mailers) share these tiers; toys and games ship boxed with their own per-item rate
   const SHIPPING_TIERS = [
     { max: 3, cost: 5 },
     { max: 8, cost: 9 },
@@ -349,10 +393,11 @@
   }
 
   function shippingCost(items) {
-    const flatCount = items.filter(c => (c.dept || 'comics') !== 'toys').reduce((n, c) => n + c.qty, 0);
+    const boxed = c => c.dept === 'toys' || c.dept === 'games';
+    const flatCount = items.filter(c => !boxed(c)).reduce((n, c) => n + c.qty, 0);
     const flat = flatCount === 0 ? 0 : SHIPPING_TIERS.find(t => flatCount <= t.max).cost;
-    // toys ship boxed: each carries its own rate (toys.csv "shipping" column), default $10
-    const toys = items.filter(c => c.dept === 'toys').reduce((sum, c) => {
+    // toys and games ship boxed: each carries its own rate (the CSV "shipping" column), default $10
+    const toys = items.filter(boxed).reduce((sum, c) => {
       const item = byId(c.id);
       const rate = item && item.shipping !== undefined && item.shipping !== '' ? Number(item.shipping) : DEFAULT_TOY_SHIPPING;
       return sum + (isNaN(rate) ? DEFAULT_TOY_SHIPPING : rate) * c.qty;
@@ -609,6 +654,15 @@
         row('Packaging', item.packaging), row('Completeness', item.completeness), row('Condition', item.condition),
       ].join('');
     }
+    if (item.dept === 'games') {
+      const graded = isGradedCard(item);
+      return [
+        row('Title', item.title), row('Platform', item.platform), row('Edition', item.edition), row('Year', item.year),
+        graded ? row('Grading co.', item.grading_company) : row('Condition', item.condition),
+        graded ? row('Grade', item.grade) : '', graded ? row('Seal rating', item.seal_rating) : '',
+        graded ? row('Cert number', item.cert_number || 'Available on request') : '',
+      ].join('');
+    }
     if (item.dept === 'cards') {
       const graded = isGradedCard(item);
       return [
@@ -644,9 +698,10 @@
       ? `<div class="modal-thumbs">${photos.map((p, i) => `<button class="modal-thumb${i === 0 ? ' active' : ''}" data-src="${escapeHTML(p)}" aria-label="View photo ${i + 1}"><img src="${escapeHTML(p)}" referrerpolicy="no-referrer" alt="">${thumbLabels[i] ? `<span>${thumbLabels[i]}</span>` : ''}</button>`).join('')}</div>`
       : '';
     const fileLine = item.dept === 'comics' ? `FILE NO. ${escapeHTML(item.sku)}`
-      : item.dept === 'toys' ? `TOY FILE ${escapeHTML(item.sku)}` : `CARD FILE ${escapeHTML(item.sku)}`;
+      : item.dept === 'toys' ? `TOY FILE ${escapeHTML(item.sku)}` : item.dept === 'games' ? `GAME FILE ${escapeHTML(item.sku)}` : `CARD FILE ${escapeHTML(item.sku)}`;
     const subLine = item.dept === 'comics' ? item.story_title
       : item.dept === 'toys' ? [item.brand, item.line].filter(Boolean).join(' · ')
+      : item.dept === 'games' ? [item.platform, item.edition].filter(Boolean).join(' · ')
       : [item.year, item.set].filter(Boolean).join(' ');
     const notes = item.dept === 'comics' ? item.synopsis : item.description;
     modal.innerHTML = `
@@ -658,7 +713,7 @@
         </div>
         <div>
           <p class="modal-file">${fileLine}</p>
-          <h3 class="modal-title">${escapeHTML(item.dept === 'comics' ? displayTitle(item) : item.name)}</h3>
+          <h3 class="modal-title">${escapeHTML(item.dept === 'comics' ? displayTitle(item) : item.dept === 'games' ? item.title : item.name)}</h3>
           ${subLine ? `<p class="modal-story">${escapeHTML(subLine)}</p>` : ''}
           <table class="modal-specs">${specsFor(item)}</table>
           ${notes ? `<p class="modal-synopsis">${escapeHTML(notes)}</p>` : ''}
@@ -703,10 +758,11 @@
   });
 
   const reset = () => { visibleCount = PAGE_SIZE; render(); };
-  [searchInput, $('toy-search'), $('card-search')].forEach(el => el.addEventListener('input', reset));
+  [searchInput, $('toy-search'), $('card-search'), $('game-search')].forEach(el => el.addEventListener('input', reset));
   [publisherSelect, keySelect, typeSelect, sortSelect,
    $('toy-brand'), $('toy-franchise'), $('toy-pack'), $('toy-sort'),
-   $('card-category'), $('card-type'), $('card-flag'), $('card-sort')].forEach(el => el.addEventListener('change', reset));
+   $('card-category'), $('card-type'), $('card-flag'), $('card-sort'),
+   $('game-platform'), $('game-type'), $('game-sort')].forEach(el => el.addEventListener('change', reset));
   loadMoreBtn.addEventListener('click', () => { visibleCount += PAGE_SIZE; render(); });
 
   // department tabs, nav links and "shop comics now" buttons
@@ -733,7 +789,7 @@
 
   populateFilters();
   initStats();
-  const startDept = ({ '#toys': 'toys', '#cards': 'cards', '#comics': 'comics' })[location.hash] || 'comics';
+  const startDept = ({ '#toys': 'toys', '#cards': 'cards', '#games': 'games', '#comics': 'comics' })[location.hash] || 'comics';
   setDept(startDept, { scroll: startDept !== 'comics' });
 
   // Deep links from Facebook / feeds: hurstcollectables.com/?book=<id> (or ?item=<id>) opens that item
@@ -742,7 +798,7 @@
     const id = params.get('book') || params.get('item') ||
       (location.hash.startsWith('#book-') ? decodeURIComponent(location.hash.slice(6)) : '');
     if (!id) {
-      const d = ({ '#toys': 'toys', '#cards': 'cards', '#comics': 'comics' })[location.hash];
+      const d = ({ '#toys': 'toys', '#cards': 'cards', '#games': 'games', '#comics': 'comics' })[location.hash];
       if (d && d !== dept) setDept(d, { scroll: true });
       return;
     }

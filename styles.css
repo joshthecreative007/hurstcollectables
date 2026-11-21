@@ -717,7 +717,7 @@ footer { padding: 60px 32px; }
 
 [hidden] { display: none !important; }
 
-/* ---------- departments: comics / toys / cards ---------- */
+/* ---------- departments: comics / toys / cards / games ---------- */
 .topnav a.active { color: var(--cyan); }
 
 .dept-tabs {
@@ -775,6 +775,11 @@ footer { padding: 60px 32px; }
 }
 .card-frame-toys img { object-fit: contain; padding: 14px; }
 
+/* games: case proportion, slab shown whole */
+.grid-games { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+.card-frame-games { aspect-ratio: 3 / 4; background: radial-gradient(circle at 50% 35%, #2a3c66, #0f1c3f); }
+.card-frame-games img { object-fit: contain; padding: 12px; }
+
 /* trading cards: real 2.5 x 3.5 proportion, card shown whole */
 .grid-cards { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
 .card-frame-cards {
@@ -811,8 +816,9 @@ footer { padding: 60px 32px; }
 .modal-photo { border: 1px solid var(--steel-2); background: var(--steel-2); }
 .modal-photo img { width: 100%; border: none; }
 .modal-photo-toys { aspect-ratio: 1 / 1; background: radial-gradient(circle at 50% 40%, #2a3c66, #0f1c3f); }
+.modal-photo-games { aspect-ratio: 3 / 4; background: radial-gradient(circle at 50% 40%, #2a3c66, #0f1c3f); }
 .modal-photo-cards { aspect-ratio: 5 / 7; background: linear-gradient(160deg, #1b2a52, #0f1c3f); }
-.modal-photo-toys img, .modal-photo-cards img { height: 100%; object-fit: contain; padding: 10px; }
+.modal-photo-toys img, .modal-photo-cards img, .modal-photo-games img { height: 100%; object-fit: contain; padding: 10px; }
 .modal-thumbs { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
 .modal-thumb {
   position: relative; width: 56px; height: 56px; padding: 0; cursor: pointer;
@@ -827,6 +833,7 @@ footer { padding: 60px 32px; }
 
 /* cart thumbnails keep each item's shape */
 .cart-row-toys img { width: 56px; height: 56px; object-fit: contain; background: var(--steel-2); }
+.cart-row-games img { width: 50px; height: 66px; object-fit: contain; background: var(--steel-2); }
 .cart-row-cards img { width: 47px; height: 66px; object-fit: contain; background: var(--steel-2); }
 
 @media (max-width: 720px) {
@@ -835,9 +842,9 @@ footer { padding: 60px 32px; }
   .dept-code { font-size: 9px; }
   .dept-count { font-size: 11px; }
   .grid-cards { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .grid-toys { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .grid-toys, .grid-games { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .modal-grid, .modal-grid-toys { grid-template-columns: 1fr; }
-  .modal-photo-toys, .modal-photo-cards { max-width: 320px; margin: 0 auto; }
+  .modal-photo-toys, .modal-photo-cards, .modal-photo-games { max-width: 320px; margin: 0 auto; }
   .incoming { padding: 44px 22px; }
 }
 

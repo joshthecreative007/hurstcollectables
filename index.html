@@ -36,6 +36,7 @@
       <a href="#comics" data-dept-link="comics">Comics</a>
       <a href="#toys" data-dept-link="toys">Toys</a>
       <a href="#cards" data-dept-link="cards">Cards</a>
+      <a href="#games" data-dept-link="games">Games</a>
       <a href="#about">Dossier</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -99,7 +100,7 @@
     <div class="corner corner-br"></div>
     <p class="hero-eyebrow">CLASSIFIED / EYES ONLY — DFW, TX</p>
     <h1 class="hero-title">THE<br>COLLECTION</h1>
-    <p class="hero-sub">Comics, collectible toys and trading cards, pulled from a two-decade personal archive. Every item cataloged, condition-verified, and cleared for acquisition.</p>
+    <p class="hero-sub">Comics, collectible toys, trading cards and graded video games, pulled from a two-decade personal archive. Every item cataloged, condition-verified, and cleared for acquisition.</p>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num" id="stat-total">—</span><span class="stat-label">books catalogued</span></div>
       <div class="stat"><span class="stat-num" id="stat-pub">—</span><span class="stat-label">publishers</span></div>
@@ -115,6 +116,7 @@
     <button class="dept-tab" role="tab" data-dept="comics"><span class="dept-code">DIV. 01</span><span class="dept-name">Comics</span><span class="dept-count" data-dept-count="comics">—</span></button>
     <button class="dept-tab" role="tab" data-dept="toys"><span class="dept-code">DIV. 02</span><span class="dept-name">Toys</span><span class="dept-count" data-dept-count="toys">—</span></button>
     <button class="dept-tab" role="tab" data-dept="cards"><span class="dept-code">DIV. 03</span><span class="dept-name">Cards</span><span class="dept-count" data-dept-count="cards">—</span></button>
+    <button class="dept-tab" role="tab" data-dept="games"><span class="dept-code">DIV. 04</span><span class="dept-name">Games</span><span class="dept-count" data-dept-count="games">—</span></button>
   </nav>
 
   <div class="catalog-header">
@@ -179,6 +181,22 @@
       <option value="price-desc">Price: high to low</option>
       <option value="year-desc">Year: newest</option>
       <option value="year-asc">Year: oldest</option>
+    </select>
+  </div>
+
+  <div class="controls" data-controls="games" hidden>
+    <input type="text" id="game-search" class="control" placeholder="Search game title or edition…">
+    <select id="game-platform" class="control"></select>
+    <select id="game-type" class="control">
+      <option value="">Graded &amp; ungraded</option>
+      <option value="graded">Graded only</option>
+      <option value="raw">Ungraded only</option>
+    </select>
+    <select id="game-sort" class="control">
+      <option value="featured">Featured</option>
+      <option value="price-asc">Price: low to high</option>
+      <option value="price-desc">Price: high to low</option>
+      <option value="name">Title A–Z</option>
     </select>
   </div>
 
@@ -256,7 +274,7 @@
       <button class="btn-primary cart-checkout-btn" id="cart-checkout-btn">Secure checkout →</button>
       <p class="cart-pay-options" id="cart-pay-options">Pay with <strong>debit or credit card</strong> (no PayPal account needed) or with PayPal.</p>
       <p class="cart-paid" id="cart-paid" hidden></p>
-      <p class="cart-note">Ships within 2 business days. Comics and cards go in rigid mailers; toys ship boxed. Combined shipping applied automatically.</p>
+      <p class="cart-note">Ships within 2 business days. Comics and cards go in rigid mailers; toys and games ship boxed. Combined shipping applied automatically.</p>
     </div>
   </aside>
 </div>
@@ -268,6 +286,7 @@
 <script src="data.js"></script>
 <script src="toys.js"></script>
 <script src="cards.js"></script>
+<script src="games.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
