@@ -419,6 +419,8 @@
       upload: '1',
       business: PAYPAL_BUSINESS_EMAIL,
       currency_code: 'USD',
+      // open PayPal on the guest card form instead of the PayPal login
+      landing_page: 'billing',
     };
     cart.forEach((c, i) => {
       const n = i + 1;
