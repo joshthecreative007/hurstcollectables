@@ -777,10 +777,6 @@
 
   function initStats() {
     $('stock-count').textContent = ALL.length;
-    $('stat-total').textContent = COMICS.length;
-    $('stat-pub').textContent = new Set(COMICS.map(i => i.publisher).filter(Boolean)).size;
-    $('stat-key').textContent = COMICS.filter(isKeyIssue).length;
-    $('stat-slabs').textContent = COMICS.filter(i => i.listing_type === 'slab').length;
     Object.entries(LISTS).forEach(([d, list]) => {
       const el = document.querySelector(`[data-dept-count="${d}"]`);
       if (el) el.textContent = list.length ? list.length.toLocaleString() : 'Coming soon';
