@@ -514,9 +514,16 @@
     };
   }
 
-  function showPaid(msg) {
+  function showPaid(msg, withFollow) {
     const el = $('cart-paid');
     el.textContent = msg;
+    if (withFollow) {
+      const a = document.createElement('a');
+      a.href = 'https://www.ebay.com/usr/wolfgangart';
+      a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = 'Follow us on eBay';
+      el.append(document.createElement('br'), document.createElement('br'), 'Want first dibs on new books? ', a, '.');
+    }
     el.hidden = false;
   }
 
@@ -531,7 +538,7 @@
         saveCart(cart);
         renderCart();
         $('cart-footer').style.display = 'block';
-        showPaid(`Thank you${name ? ', ' + name : ''}! Your payment went through and a receipt is on its way to your email. We ship within 2 business days.`);
+        showPaid(`Thank you${name ? ', ' + name : ''}! Your payment went through and a receipt is on its way to your email. We ship within 2 business days.`, true);
       }),
       onError: () => showPaid('Something went wrong with checkout. Please try again, or message us on Facebook and we will sort it out.'),
     }).render('#paypal-buttons').then(() => {

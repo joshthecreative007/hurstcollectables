@@ -496,6 +496,13 @@ footer { padding: 60px 32px; }
   flex-wrap: wrap;
 }
 .footer-tag { font-size: 13px; color: var(--silver); margin: 0; }
+.footer-follow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; max-width: 360px; }
+.footer-follow p { flex-basis: 100%; margin: 0; font-size: 12px; color: var(--silver); }
+.follow-ebay, .follow-fb { font-family: 'Bangers', var(--font-display); font-size: 18px; letter-spacing: .05em; text-decoration: none; color: #0a0e1a; border: 2px solid #0a0e1a; box-shadow: 3px 3px 0 #0a0e1a; padding: 6px 14px; }
+.follow-ebay { background: #ffd76a; }
+.follow-fb { background: var(--cyan); }
+.follow-ebay:hover, .follow-fb:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #0a0e1a; }
+.cart-paid a { color: #ffd76a; font-weight: 600; }
 .footer-note { font-size: 13px; color: var(--steel); max-width: 380px; margin: 0; }
 
 /* ---------- modal ---------- */
