@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow">
+<title>COTD render</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Inter:wght@600&family=Bangers&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0a0e1a;overflow:hidden}
+#wrap{position:fixed;left:0;top:0;width:1080px;height:1080px;transform-origin:0 0}
+.g{position:relative;width:1080px;height:1080px;overflow:hidden;color:#fff;font-family:Inter,sans-serif;
+ background:radial-gradient(circle at 50% 46%,rgba(94,200,232,.30),transparent 46%),repeating-conic-gradient(from 0deg at 50% 46%,rgba(255,255,255,.06) 0deg 5deg,transparent 5deg 12deg),linear-gradient(165deg,#13265a,#0f1c3f 60%,#0a0e1a)}
+.g:before{content:'';position:absolute;inset:0;background:radial-gradient(rgba(94,200,232,.4) 2px,transparent 2.6px) 0 0/18px 18px;-webkit-mask-image:radial-gradient(ellipse at 50% 46%,transparent 40%,#000 85%);opacity:.5}
+.top{position:absolute;left:0;right:0;top:0;height:120px;background:#e63946;border-bottom:6px solid #0a0e1a;display:flex;align-items:center;justify-content:center;gap:18px}
+.top img{position:absolute;left:22px;top:12px;width:96px;height:96px}
+.top h1{margin:0;font:92px/1 Bangers;letter-spacing:.04em;color:#fff;-webkit-text-stroke:4px #0a0e1a;paint-order:stroke fill;text-shadow:6px 6px 0 #0a0e1a;transform:rotate(-1.5deg)}
+.top h1 b{color:#ffd76a;font-weight:400}
+.cover{position:absolute;left:50%;top:160px;transform:translateX(-50%) rotate(-2deg);height:640px;max-width:620px;border:8px solid #fff;outline:5px solid #0a0e1a;box-shadow:16px 16px 0 rgba(10,14,26,.9);background:#fff}
+.slab .cover{height:660px}
+.title{position:absolute;left:40px;right:40px;top:836px;text-align:center;font:700 54px/1.02 Oswald;text-transform:uppercase;color:#fff;-webkit-text-stroke:2px #0a0e1a;paint-order:stroke fill;text-shadow:4px 4px 0 #5ec8e8}
+.sub{position:absolute;left:40px;right:40px;top:905px;text-align:center;font:600 26px Inter;color:#c8cdd6}
+.price{position:absolute;right:46px;top:620px;width:200px;height:200px;display:flex;align-items:center;justify-content:center;font:64px Bangers;color:#0a0e1a;transform:rotate(10deg)}
+.price:before{content:'';position:absolute;inset:0;z-index:-1;background:#ffd76a;border:0;clip-path:polygon(50% 0%,61% 18%,82% 8%,78% 31%,100% 36%,84% 53%,98% 72%,74% 74%,72% 97%,52% 84%,32% 100%,27% 76%,4% 76%,16% 56%,0% 37%,22% 31%,17% 8%,39% 18%)}
+.grade{position:absolute;left:46px;top:640px;width:150px;height:150px;border-radius:50%;background:#e63946;border:6px solid #fff;outline:4px solid #0a0e1a;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-8deg)}
+.grade b{font:64px/1 Bangers;color:#fff}.grade span{font:600 20px Inter;color:#fff;letter-spacing:.08em}
+.bar{position:absolute;left:0;right:0;bottom:0;height:110px;background:#5ec8e8;border-top:6px solid #0a0e1a;display:flex;align-items:center;justify-content:center;gap:24px;font:58px Bangers;letter-spacing:.05em;color:#0a0e1a}
+.bar small{font:600 22px Inter;letter-spacing:0}
+</style></head><body><div id="wrap"></div>
+<script src="../data.js"></script>
+<script>
+const q=new URLSearchParams(location.search), id=q.get('id');
+const b=INVENTORY.find(x=>x.id===id);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+if(b){
+ const slab=!!b.grading_company, yr=(b.cover_date||'').slice(-4);
+ const iss=String(b.issue).replace(/[A-Z]+$/,'');
+ document.getElementById('wrap').innerHTML=`<div class="g ${slab?'slab':''}">
+ <div class="top"><img src="../assets/logo-round-240.png" alt=""><h1>${slab?'Slab':'Comic'} <b>of the Day!</b></h1></div>
+ <img class="cover" src="${esc(b.photo_url)}" referrerpolicy="no-referrer" alt="">
+ ${slab?`<div class="grade"><span>${esc(b.grading_company)}</span><b>${esc(String(b.grade).split(' ')[0])}</b></div>`:''}
+ <div class="price">$${(+b.price).toFixed(2)}</div>
+ <div class="title">${esc(b.series.replace(/, Vol\. \d+$/,''))} #${esc(iss)}</div>
+ <div class="sub">${esc(b.publisher)}${yr?' · '+yr:''}${slab?'':' · Bagged &amp; boarded'}</div>
+ <div class="bar">HURSTCOLLECTABLES.COM <small>Card · PayPal · Venmo</small></div></div>`;
+}
+function fit(){const s=Math.min(innerWidth,innerHeight)/1080;document.getElementById('wrap').style.transform='scale('+s+')'}
+addEventListener('resize',fit);fit();
+</script></body></html>

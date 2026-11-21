@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://hurstcollectables.com/sitemap.xml
+
+User-agent: *
+Disallow: /social/
