@@ -117,12 +117,18 @@ img { display: block; max-width: 100%; }
   top: 0;
   right: 0;
   height: 100%;
-  width: 380px;
-  max-width: 92vw;
+  height: 100dvh;
+  width: 440px;
+  max-width: 100vw;
   background: var(--navy);
   border-left: 1px solid var(--cyan-dim);
   display: flex;
   flex-direction: column;
+  /* the whole drawer scrolls as one page, so items, totals and the
+     PayPal card form are always reachable */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 .cart-header {
   display: flex;
@@ -130,6 +136,11 @@ img { display: block; max-width: 100%; }
   justify-content: space-between;
   padding: 20px 24px;
   border-bottom: 1px solid var(--steel-2);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--navy);
+  flex: none;
 }
 .cart-header h3 {
   font-family: var(--font-display);
@@ -148,7 +159,7 @@ img { display: block; max-width: 100%; }
 }
 .cart-close:hover { border-color: var(--cyan); color: var(--cyan); }
 
-.cart-items { flex: 1; overflow-y: auto; padding: 12px 24px; }
+.cart-items { flex: none; padding: 12px 24px; }
 .cart-row {
   display: flex;
   gap: 12px;
@@ -173,7 +184,11 @@ img { display: block; max-width: 100%; }
 
 .cart-empty { display: none; text-align: center; color: var(--silver); font-size: 14px; padding: 40px 24px; }
 
-.cart-footer { border-top: 1px solid var(--steel-2); padding: 20px 24px; }
+.cart-footer { flex: none; border-top: 1px solid var(--steel-2); padding: 20px 24px 40px; }
+@media (max-width: 600px) {
+  .cart-drawer { width: 100vw; border-left: none; }
+  .cart-header, .cart-items, .cart-footer { padding-left: 16px; padding-right: 16px; }
+}
 .cart-line {
   display: flex;
   justify-content: space-between;
