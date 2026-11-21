@@ -904,3 +904,12 @@ footer { padding: 60px 32px; }
   background: radial-gradient(ellipse 70% 60% at 50% 45%, rgba(10,14,26,.35), rgba(10,14,26,.75));
 }
 @media (max-width: 720px) { .map-backdrop { opacity: .45; background-size: auto 100%; } }
+
+/* heading over the four department tabs */
+.threats-head { display: flex; align-items: baseline; gap: 16px; margin: 0 0 16px; flex-wrap: wrap; }
+.threats-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em; color: var(--cyan); margin: 0; }
+.threats-title { font-family: var(--font-display); font-size: clamp(26px, 3.2vw, 38px); font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--white); margin: 0; }
+.threats-title::after { content: ''; display: inline-block; width: 10px; height: 10px; margin-left: 12px; border-radius: 50%; background: #e63946; box-shadow: 0 0 10px #e63946; vertical-align: middle; animation: threat-blink 1.6s ease-in-out infinite; }
+@keyframes threat-blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .threats-title::after { animation: none; } }
+@media (max-width: 720px) { .threats-head { flex-direction: column; gap: 4px; margin-bottom: 8px; } .dept-name { font-size: 13px; } }
